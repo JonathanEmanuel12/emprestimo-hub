@@ -1,0 +1,14 @@
+.search-bar {
+    margin-bottom: 2rem;
+}
+
+.search-bar input {
+    max-width: 300px;
+}
+
+.item-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    flex: 1 1 auto;
+}

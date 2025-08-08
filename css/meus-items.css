@@ -1,0 +1,21 @@
+.top-bar {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+#criarItem {
+    margin-left: 0.5rem;
+}
+
+.search-bar input {
+    max-width: 300px;
+}
+
+.item-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    flex: 1 1 auto;
+}
