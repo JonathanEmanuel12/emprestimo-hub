@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criar Item | Empréstimo Hub</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --dark-bg: #0D1B2A;
+      --dark-sidebar: #1B263B;
+      --dark-text: #FFFFFF;
+
+      --light-bg: #F8F9FA;
+      --light-sidebar: #FFFFFF;
+      --light-text: #000000;
+    }
+
+    body.dark-mode {
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    body.light-mode {
+      background-color: var(--light-bg);
+      color: var(--light-text);
+    }
+
+    .sidebar {
+      height: 100vh;
+      padding: 2rem 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      overflow-y: auto;
+    }
+
+    .dark-mode .sidebar {
+      background-color: var(--dark-sidebar);
+      color: var(--dark-text);
+    }
+
+    .light-mode .sidebar {
+      background-color: var(--light-sidebar);
+      color: var(--light-text);
+    }
+
+    .sidebar .nav-link {
+      color: inherit;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .sidebar .nav-link.active {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .main-content {
+      margin-left: 220px;
+      padding: 2rem;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .form-label {
+      font-weight: 500;
+    }
+
+    .form-container {
+      max-width: 700px;
+    }
+
+    .btn-save {
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="theme-toggle">
+    <button id="toggleTheme" class="btn btn-sm btn-outline-secondary">Alternar Tema</button>
+  </div>
+
+  <!-- Sidebar -->
+  <nav class="sidebar d-flex flex-column">
+    <h4 class="mb-4">Empréstimo Hub</h4>
+    <a href="hub.html" class="nav-link">Hub de Itens</a>
+    <a href="emprestimos.html" class="nav-link">Empréstimos</a>
+    <a href="meus-itens.html" class="nav-link active">Meus Itens</a>
+    <a href="meu-perfil.html" class="nav-link">Perfil</a>
+  </nav>
+
+  <!-- Conteúdo -->
+  <main class="main-content">
+    <h3 class="mb-4">Criar Novo Item</h3>
+
+    <form class="form-container" onsubmit="handleSubmit(event)">
+      <div class="mb-4">
+        <label class="form-label">Imagem do Item</label><br />
+        <input type="file" id="itemImagem" class="form-control mb-2" accept="image/*" onchange="mostrarPreviewImagem()" />
+        <img id="previewImagem" src="https://via.placeholder.com/150" alt="Preview da imagem" style="max-width: 150px; border-radius: 8px; display: none;" />
+      </div>
+
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome do Item *</label>
+        <input type="text" class="form-control" id="nome" required />
+      </div>
+
+      <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição</label>
+        <textarea class="form-control" id="descricao" rows="3"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="observacoes" class="form-label">Observações</label>
+        <textarea class="form-control" id="observacoes" rows="2"></textarea>
+      </div>
+
+      <div class="form-check mb-4">
+        <input class="form-check-input" type="checkbox" id="visivelHub" />
+        <label class="form-check-label" for="visivelHub">Visível no Hub</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-save">Salvar Item</button>
+    </form>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Tema
+    const toggleButton = document.getElementById('toggleTheme');
+    const body = document.body;
+
+    function setTheme(theme) {
+      body.classList.remove('dark-mode', 'light-mode');
+      body.classList.add(theme);
+      localStorage.setItem('theme', theme);
+    }
+
+    toggleButton.addEventListener('click', () => {
+      const currentTheme = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
+      setTheme(currentTheme === 'dark-mode' ? 'light-mode' : 'dark-mode');
+    });
+
+    const savedTheme = localStorage.getItem('theme') || 'dark-mode';
+    setTheme(savedTheme);
+
+    // Envio simulado
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const descricao = document.getElementById('descricao').value;
+      const observacoes = document.getElementById('observacoes').value;
+      const visivelHub = document.getElementById('visivelHub').checked;
+
+      console.log({
+        nome,
+        descricao,
+        observacoes,
+        visivelHub
+      });
+
+      alert("Item criado com sucesso!");
+      // Aqui você pode fazer o POST para sua API
+      // ex: fetch('/api/itens', { method: 'POST', body: JSON.stringify({...}) })
+
+      // Resetar form
+      event.target.reset();
+    }
+
+    function mostrarPreviewImagem() {
+      const input = document.getElementById('itemImagem');
+      const preview = document.getElementById('previewImagem');
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+      } else {
+        preview.src = '';
+        preview.style.display = 'none';
+      }
+    }
+
+  </script>
+</body>
+</html>
+
