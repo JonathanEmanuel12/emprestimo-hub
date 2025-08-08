@@ -1,0 +1,11 @@
+.form-label {
+    font-weight: 500;
+}
+
+.form-container {
+    max-width: 700px;
+}
+
+.btn-save {
+    margin-top: 1.5rem;
+}
