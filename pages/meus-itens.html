@@ -55,14 +55,6 @@
         const perPage = 9;
         let loading = false;
 
-        function gerarItemFake(i) {
-            return {
-                nome: `Meu Item ${i + 1}`,
-                descricao: `Descrição do meu item número ${i + 1}.`,
-                imagem: 'https://via.placeholder.com/300'
-            };
-        }
-
         async function carregarMaisItens() {
             if (loading) return;
             loading = true;
@@ -70,8 +62,6 @@
 
             const clientId = document.cookie.split('; ').find(row => row.startsWith('clientId=')).split('=')[1];
             const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
-            console.log(page, perPage)
-
             const defaultParams = 'showMyItems=true&latitude=11111111&longitude=11111111&distance=10000000'
 
             const data = await fetch(`http://ec2-18-217-46-87.us-east-2.compute.amazonaws.com:8080/client/${clientId}/item?page=${page}&perPage=${perPage}&${defaultParams}`, {
@@ -83,11 +73,9 @@
             })
 
             const items = (await data.json()).data
-            console.log(items)
 
             setTimeout(() => {
                 for (let i = 0; i < items.length; i++) {
-                    // const item = gerarItemFake(page * perPage + i);
                     const itemHTML = `
                         <div class="item-card">
                         <img src="https://via.placeholder.com/300" alt="Item" />
