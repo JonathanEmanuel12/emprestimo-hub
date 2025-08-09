@@ -26,8 +26,8 @@ form.addEventListener('submit', function (e) {
         .then(res => res.json())
         .then(data => {
             if (data.token) {
-                document.cookie = `token=${data.token}; path=/; max-age=86400; Secure; SameSite=Strict`;
-                document.cookie = `clientId=${data.id}; path=/; max-age=86400; Secure; SameSite=Strict`;
+                document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Strict`;
+                document.cookie = `clientId=${data.id}; path=/; max-age=86400; SameSite=Strict`;
                 alert('Login bem-sucedido!');
 
                 window.location.href = 'pages/hub.html';
