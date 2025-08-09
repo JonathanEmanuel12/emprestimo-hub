@@ -50,42 +50,8 @@
     <script src="../js/toogle-theme.js"></script>
     <script> const pageName = 'meus-itens' </script>
     <script src="../js/list-items.js"></script>
-
-    <script>
-        // Busca simulada
-        function buscarItens() {
-            const termo = document.getElementById('searchInput').value.trim();
-            itemList.innerHTML = '';
-            page = 0;
-
-            if (termo === '') {
-                // carregarMaisItens();
-                return;
-            }
-
-            for (let i = 0; i < 6; i++) {
-                const item = {
-                    nome: `Resultado: ${termo} ${i + 1}`,
-                    descricao: `Descrição do item "${termo}" ${i + 1}`,
-                    imagem: 'https://via.placeholder.com/300'
-                };
-
-                const itemHTML = `
-          <div class="item-card">
-            <img src="${item.imagem}" alt="Item" />
-            <div class="item-info">
-              <h5>${item.nome}</h5>
-              <p>${item.descricao}</p>
-            </div>
-          </div>
-        `;
-                itemList.insertAdjacentHTML('beforeend', itemHTML);
-            }
-        }
-
-        // Inicial
-       carregarMaisItens().then(() => console.log('itens carregados'));
-    </script>
+    <script src="../js/search-items.js"></script>
+    <script>carregarMaisItens().then(() => console.log('itens carregados'))</script>
 </body>
 
 </html>
