@@ -14,7 +14,7 @@ form.addEventListener('submit', function (e) {
     // Simulação de login: email/senha fixos
     const email = document.getElementById('email').value;
     const password = document.getElementById('senha').value;
-    const manterConectado = document.getElementById('manterConectado').checked;
+    // const manterConectado = document.getElementById('manterConectado').checked;
 
     fetch('http://ec2-18-217-46-87.us-east-2.compute.amazonaws.com:8080/auth/signIn', {
         method: 'POST',
