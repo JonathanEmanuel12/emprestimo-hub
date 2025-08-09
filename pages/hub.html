@@ -49,29 +49,34 @@
     <script src="../js/list-items.js"></script>
     <script>
         // Busca simulada
-        function buscarItens() {
-            const termo = document.getElementById('searchInput').value.trim();
+        async function buscarItens() {
+            const search = document.getElementById('searchInput').value.trim();
+            if (search === '') return
+
             itemList.innerHTML = '';
 
-            if (termo === '') {
-                page = 0;
-                // carregarMaisItens();
-                return;
-            }
+            const clientId = document.cookie.split('; ').find(row => row.startsWith('clientId=')).split('=')[1];
+            const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
+            const showMyItems = pageName === 'meus-itens' ? 'true' : 'false';
+            const defaultParams = 'latitude=11111111&longitude=11111111&distance=10000000'
 
-            for (let i = 0; i < 6; i++) {
-                const item = {
-                    nome: `Resultado: ${termo} ${i + 1}`,
-                    descricao: `Descrição do item relacionado a "${termo}".`,
-                    imagem: 'https://via.placeholder.com/300'
-                };
+            const data = await fetch(`${baseUrl}/client/${clientId}/item?search=${search}&showMyItems=${showMyItems}&${defaultParams}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
 
+            const items = (await data.json()).data
+
+            for (let i = 0; i < items.length; i++) {
                 const itemHTML = `
                     <div class="item-card">
-                        <img src="${item.imagem}" alt="Item" />
+                        <img src="https://via.placeholder.com/300" alt="Item" />
                         <div class="item-info">
-                        <h5>${item.nome}</h5>
-                        <p>${item.descricao}</p>
+                        <h5>${items[i].name}</h5>
+                        <p>${items[i].description}</p>
                         </div>
                     </div>
                 `;
