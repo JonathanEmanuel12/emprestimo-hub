@@ -28,7 +28,7 @@ async function carregarMaisItens() {
         for (let i = 0; i < items.length; i++) {
             const itemHTML = `
                 <div class="item-card">
-                <img src="https://via.placeholder.com/300" alt="Item" />
+                <img src="${items[i].imgUrl}" alt="Item" />
                 <div class="item-info">
                     <h5>${items[i].name}</h5>
                     <p>${items[i].description}</p>
