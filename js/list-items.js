@@ -27,7 +27,7 @@ async function carregarMaisItens() {
     setTimeout(() => {
         for (let i = 0; i < items.length; i++) {
             const itemHTML = `
-                <div class="item-card">
+                <div class="item-card" onclick="abrirDetalhesItem('${items[i].id}')" style="cursor: pointer;">
                 <img src="${items[i].imgUrl}" alt="Item" />
                 <div class="item-info">
                     <h5>${items[i].name}</h5>
