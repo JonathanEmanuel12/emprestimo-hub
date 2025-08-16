@@ -1,4 +1,5 @@
 :root {
+    /* Keep legacy tokens referenced by other pages */
     --dark-bg: #0D1B2A;
     --dark-card: #1B263B;
     --dark-text: #FFFFFF;
@@ -8,47 +9,67 @@
     --light-text: #000000;
 }
 
-body.dark-mode {
-    background-color: var(--dark-bg);
-    color: var(--dark-text);
-    height: 100vh;
+body.dark-mode,
+body.light-mode {
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial;
 }
 
+/* Background e contraste explícitos para a página de login */
 body.light-mode {
-    background-color: var(--light-bg);
-    color: var(--light-text);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(900px 600px at 10% 10%, rgba(108, 92, 231, 0.08) 0%, rgba(108, 92, 231, 0) 60%),
+                linear-gradient(180deg, #F7F8FA 0%, #EEF1F7 100%);
+    color: #0F172A;
+}
+
+body.dark-mode {
+    background: radial-gradient(900px 600px at 10% 10%, rgba(108, 92, 231, 0.16) 0%, rgba(108, 92, 231, 0) 60%),
+                linear-gradient(180deg, #0B1220 0%, #0F172A 100%);
+    color: #E5E7EB;
 }
 
 .login-card {
     padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
+    border: 1px solid var(--border, rgba(2, 6, 23, 0.08));
+    background-color: var(--surface, var(--light-card));
+    color: var(--text-primary, var(--light-text));
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    backdrop-filter: saturate(180%) blur(6px);
 }
 
 .dark-mode .login-card {
-    background-color: var(--dark-card);
-    color: var(--dark-text);
-}
-
-.light-mode .login-card {
-    background-color: var(--light-card);
-    color: var(--light-text);
+    background-color: var(--dark-card, #1B263B);
+    color: var(--dark-text, #FFFFFF);
+    border-color: rgba(148, 163, 184, 0.16);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .form-control {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: var(--surface, #ffffff);
+    color: var(--text-primary, #0F172A);
+    border: 1px solid var(--border, rgba(2, 6, 23, 0.08));
+    border-radius: 10px;
+}
+
+.dark-mode .form-control {
+    background-color: #111827;
+    color: #E5E7EB;
+    border-color: rgba(148, 163, 184, 0.16);
+}
+
+.dark-mode .form-control::placeholder {
+    color: #94A3B8;
+}
+
+.form-control:focus {
+    border-color: #6C5CE7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25);
 }
 
 .form-check-label {
@@ -56,19 +77,22 @@ body.light-mode {
 }
 
 .btn-primary {
-    background-color: #0D6EFD;
-    border: none;
+    background-color: #6C5CE7;
+    border-color: #6C5CE7;
+    border-radius: 10px;
 }
 
 .btn-primary:hover {
-    background-color: #0B5ED7;
+    background-color: #5a4bd8;
+    border-color: #5a4bd8;
 }
 
 .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
+    font-size: 1.9rem;
+    font-weight: 800;
     margin-bottom: 1.5rem;
     text-align: center;
+    letter-spacing: 0.2px;
 }
 
 .theme-toggle {
@@ -80,4 +104,5 @@ body.light-mode {
 .alert {
     font-size: 0.9rem;
     margin-top: 1rem;
+    border-radius: 10px;
 }

@@ -14,7 +14,7 @@
     height: 100px;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid #ccc;
+    border: 2px solid var(--border, #e5e7eb);
 }
 
 .form-label {
@@ -23,4 +23,9 @@
 
 .btn-save {
     margin-top: 2rem;
+    border-radius: 10px;
+}
+
+.form-section h5 {
+    margin-bottom: 1rem;
 }

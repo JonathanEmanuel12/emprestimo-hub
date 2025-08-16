@@ -3,7 +3,7 @@
 }
 
 .search-bar input {
-    max-width: 300px;
+    max-width: 360px;
 }
 
 .item-card img {
@@ -11,4 +11,8 @@
     height: 180px;
     object-fit: cover;
     flex-shrink: 0;
+}
+
+.search-bar .btn {
+    border-radius: 10px;
 }
