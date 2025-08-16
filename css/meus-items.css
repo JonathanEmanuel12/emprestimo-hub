@@ -15,7 +15,7 @@
 
 .item-card img {
     width: 100%;
-    height: auto;
+    height: 180px;
     object-fit: cover;
-    flex: 1 1 auto;
+    flex-shrink: 0;
 }
