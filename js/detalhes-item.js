@@ -12,10 +12,63 @@ const userNeighborhood = document.getElementById('userNeighborhood');
 const userStreet = document.getElementById('userStreet');
 const userNumber = document.getElementById('userNumber');
 const userComplement = document.getElementById('userComplement');
+const btnContact = document.querySelector('.btn-contact');
 
 // Função para voltar à página anterior
 function voltarPagina() {
     window.history.back();
+}
+
+// Função para solicitar empréstimo
+async function solicitarEmprestimo(itemId) {
+    try {
+        const clientId = document.cookie
+            .split('; ')
+            .find(c => c.startsWith('clientId='))
+            ?.split('=')[1];
+        const token = document.cookie
+            .split('; ')
+            .find(c => c.startsWith('token='))
+            ?.split('=')[1];
+
+        if (!clientId || !token) {
+            alert('Sessão expirada. Redirecionando para login...');
+            window.location.href = '../index.html';
+            return;
+        }
+
+        // Desabilitar botão durante o processo
+        btnContact.disabled = true;
+        btnContact.textContent = 'Solicitando...';
+
+        const response = await fetch(`${baseUrl}/client/${clientId}/loan`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                itemId: itemId
+            })
+        });
+
+        if (response.ok) {
+            alert('Empréstimo solicitado com sucesso!');
+            // Opcionalmente, redirecionar para página de empréstimos
+            // window.location.href = 'emprestimos.html';
+        } else {
+            const errorData = await response.json();
+            alert(`Erro ao solicitar empréstimo: ${errorData.message || 'Erro desconhecido'}`);
+        }
+
+    } catch (error) {
+        console.error('Erro ao solicitar empréstimo:', error);
+        alert('Erro de conexão. Tente novamente.');
+    } finally {
+        // Reabilitar botão
+        btnContact.disabled = false;
+        btnContact.textContent = 'Solicitar Empréstimo';
+    }
 }
 
 // Função para obter parâmetros da URL
@@ -87,6 +140,9 @@ async function carregarDetalhesItem() {
             userNumber.textContent = item.client.address.number || '-';
             userComplement.textContent = item.client.address.complement || '-';
         }
+
+        // Adicionar evento de clique no botão de solicitar empréstimo
+        btnContact.onclick = () => solicitarEmprestimo(itemId);
 
     } catch (error) {
         console.error('Erro ao carregar detalhes:', error);
