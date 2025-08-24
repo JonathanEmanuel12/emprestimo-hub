@@ -13,6 +13,13 @@ const userStreet = document.getElementById('userStreet');
 const userNumber = document.getElementById('userNumber');
 const userComplement = document.getElementById('userComplement');
 const btnContact = document.querySelector('.btn-contact');
+const btnContactTexts = {
+    able: 'Solicitar Empréstimo',
+    disabled: 'Solicitando...',
+    requested: 'Emprestimo solicitado',
+    accept: 'Empréstimo aceito',
+    lent: 'Emprestado',
+}
 
 // Função para voltar à página anterior
 function voltarPagina() {
@@ -37,9 +44,7 @@ async function solicitarEmprestimo(itemId) {
             return;
         }
 
-        // Desabilitar botão durante o processo
-        btnContact.disabled = true;
-        btnContact.textContent = 'Solicitando...';
+        changeBtnContact(btnContactTexts.disabled)
 
         const response = await fetch(`${baseUrl}/client/${clientId}/loan`, {
             method: 'POST',
@@ -54,8 +59,8 @@ async function solicitarEmprestimo(itemId) {
 
         if (response.ok) {
             alert('Empréstimo solicitado com sucesso!');
-            // Opcionalmente, redirecionar para página de empréstimos
-            // window.location.href = 'emprestimos.html';
+            changeBtnContact(btnContactTexts.requested)
+
         } else {
             const errorData = await response.json();
             alert(`Erro ao solicitar empréstimo: ${errorData.message || 'Erro desconhecido'}`);
@@ -64,10 +69,8 @@ async function solicitarEmprestimo(itemId) {
     } catch (error) {
         console.error('Erro ao solicitar empréstimo:', error);
         alert('Erro de conexão. Tente novamente.');
-    } finally {
-        // Reabilitar botão
         btnContact.disabled = false;
-        btnContact.textContent = 'Solicitar Empréstimo';
+        btnContact.textContent = btnContactTexts.able;
     }
 }
 
@@ -75,6 +78,11 @@ async function solicitarEmprestimo(itemId) {
 function getUrlParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
+}
+
+function changeBtnContact(text) {
+    btnContact.textContent = text
+    btnContact.disabled = (text === btnContactTexts.able) ? false : true
 }
 
 // Carregar dados do item
@@ -143,6 +151,9 @@ async function carregarDetalhesItem() {
 
         // Adicionar evento de clique no botão de solicitar empréstimo
         btnContact.onclick = () => solicitarEmprestimo(itemId);
+        const loanStatus = (item.loans.length === 0) ? 'able' : item.loans[0].status
+        changeBtnContact(btnContactTexts[loanStatus])
+
 
     } catch (error) {
         console.error('Erro ao carregar detalhes:', error);
